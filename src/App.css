@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+  font-family: 'PT Sans', sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  background: url("imagens/bg-pattern.svg") no-repeat top;
+}
+
+.container {
+  width: 950px;
+  margin: 0 auto
+}
