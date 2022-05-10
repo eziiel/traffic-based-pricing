@@ -17,30 +17,36 @@ const MainInt = () => {
   const [toggle, setToggle] = React.useState(0)
   const [progressToggle, setPT] = React.useState(0)
 
+  const refDisc = React.useRef()
+  const refBGDisc = React.useRef()
+
   function handleChange ({target}) {
     setValue(target.value)
   }
   function handleToggle ({target}) {
     setToggle(Number(target.value))
-    
-      itens.map(item => {
-      if(toggle == 0 && valueM === item) {
-        setValueM((valueM) => valueM - (valueM * .25))
-      }
-      else if (toggle == 1 && valueM != item){
-        setValueM(valueM)
-      }
-    })
   }
 
   React.useEffect(()=>{
     setPT((progressToggle) => toggle * 25)
+    itens.map(item => {
+      if (valueM == 0) return
+      if(toggle == 1 && valueM === item) {
+        setValueM((valueM) => valueM - (valueM * .25))
+        refBGDisc.current.style.background = '#f1dac660'
+      } else if (toggle == 0){
+        setValueM(itens[value-1])
+        refBGDisc.current.style.background = '#d4f3f1'
+      }
+    })
   },[toggle])
 
 
 
   React.useEffect(()=>{
     setProgress((progress) => (value * 20))
+    refDisc.current.value = 0
+    setToggle(0)
 
     switch (Number(value)) {
       case 0: 
@@ -82,7 +88,7 @@ return (
         <p className={style.info}>{pages} PAGESVIEWS</p>
         <span className={style.priceContent}>
           <span className={style.price}>
-            R$ {valueM}
+            R$ {0 || valueM}
           </span>
           <span className={style.infoPrice}>
             /month
@@ -119,6 +125,7 @@ return (
               >
               </span>
               <input 
+              ref={refDisc}
               className={style.inputDisc}
               type="range" 
               onChange={handleToggle}
@@ -129,7 +136,9 @@ return (
             </div>
           <span className={style.infoDiscTime}>
             Year Billing</span>
-          <span className={style.infoDisc}>
+          <span 
+          ref={refBGDisc}
+          className={style.infoDisc}>
             25% discount
           </span>
         </div>
